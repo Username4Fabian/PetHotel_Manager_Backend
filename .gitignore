@@ -1,53 +1,55 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar
-.mvn/wrapper/maven-wrapper.jar
+# Ignore Maven target directory
+Backend/target/
 
-# Eclipse m2e generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
+# Ignore Maven wrapper files
+Backend/.mvn/wrapper/maven-wrapper.jar
 
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Ignore Maven related files
+Backend/pom.xml.tag
+Backend/pom.xml.releaseBackup
+Backend/pom.xml.versionsBackup
+Backend/pom.xml.next
+Backend/release.properties
+Backend/dependency-reduced-pom.xml
+Backend/buildNumber.properties
+Backend/.mvn/timing.properties
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Ignore Eclipse project files
+Backend/.project
+Backend/.classpath
+Backend/.settings/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# Ignore IntelliJ IDEA project files
+Backend/.idea/
+Backend/*.iws
+Backend/*.iml
+Backend/*.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Ignore NetBeans project files
+Backend/nbproject/private/
+Backend/nbbuild/
+Backend/dist/
+Backend/nbdist/
+Backend/.nb-gradle/
+Backend/build/
 
-### VS Code ###
+# Ignore Spring Tool Suite files
+Backend/.apt_generated
+Backend/.factorypath
+Backend/.springBeans
+Backend/.sts4-cache
+
+# Ignore VS Code settings
 .vscode/
 
-src/main/resources/application.properties
+# Ignore application properties
+Backend/src/main/resources/application.properties
+
+# Ignore help file
+Backend/HELP.md
+
+# Allow specific target and build directories
+!Backend/**/src/main/**/target/
+!Backend/**/src/test/**/target/
+!Backend/**/src/main/**/build/
+!Backend/**/src/test/**/build/
