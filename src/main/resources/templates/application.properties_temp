@@ -1,3 +1,4 @@
+# Create a new database called PetHotel_Manager and add application.properties file in the resources folder with the following content:
 spring.application.name=pethotel_manager
 
 # Database
