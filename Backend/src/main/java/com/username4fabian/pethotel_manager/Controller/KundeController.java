@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.username4fabian.pethotel_manager.Entities.Kunde;
 import com.username4fabian.pethotel_manager.Repositories.KundeRepository;
 
-
-
 @RestController
 @RequestMapping("/kunde")
 public class KundeController {

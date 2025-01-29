@@ -20,24 +20,26 @@ public class Kunde {
     private String anrede;
     private String firstName;
     private String lastName;
-    private String straße; 
-    private String plz; 
+    private String straße;
+    private String plz;
     private String ort;
 
     private int telefonnummer;
     private String email;
-    private String ausweisnr; 
+    private String ausweisnr;
     private Date geburtsdatum;
-    private String geburtsort; 
-    private String sprache; 
+    private String geburtsort;
+    private String sprache;
     private boolean agbsAkzeptiert;
-    private boolean noMWST; 
+    private boolean noMWST;
 
     public Kunde() {
         // Default constructor
     }
 
-    public Kunde(String anrede, String firstName, String lastName, String straße, String plz, String ort, int telefonnummer, String email, String ausweisnr, Date geburtsdatum, String geburtsort, String sprache, boolean agbsAkzeptiert, boolean noMWST) {
+    public Kunde(String anrede, String firstName, String lastName, String straße, String plz, String ort,
+            int telefonnummer, String email, String ausweisnr, Date geburtsdatum, String geburtsort, String sprache,
+            boolean agbsAkzeptiert, boolean noMWST) {
         this.anrede = anrede;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,7 +55,6 @@ public class Kunde {
         this.agbsAkzeptiert = agbsAkzeptiert;
         this.noMWST = noMWST;
     }
-
 
     public int getId() {
         return this.id;
