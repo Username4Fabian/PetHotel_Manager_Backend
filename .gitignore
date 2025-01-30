@@ -1,81 +1,53 @@
-# Ignore Maven target directory
-Backend/target/
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
 
-# Ignore Maven wrapper files
-Backend/.mvn/wrapper/maven-wrapper.jar
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
-# Ignore Maven related files
-Backend/pom.xml.tag
-Backend/pom.xml.releaseBackup
-Backend/pom.xml.versionsBackup
-Backend/pom.xml.next
-Backend/release.properties
-Backend/dependency-reduced-pom.xml
-Backend/buildNumber.properties
-Backend/.mvn/timing.properties
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Ignore Eclipse project files
-Backend/.project
-Backend/.classpath
-Backend/.settings/
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# Ignore IntelliJ IDEA project files
-Backend/.idea/
-Backend/*.iws
-Backend/*.iml
-Backend/*.ipr
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
-# Ignore NetBeans project files
-Backend/nbproject/private/
-Backend/nbbuild/
-Backend/dist/
-Backend/nbdist/
-Backend/.nb-gradle/
-Backend/build/
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Ignore Spring Tool Suite files
-Backend/.apt_generated
-Backend/.factorypath
-Backend/.springBeans
-Backend/.sts4-cache
-
-# Ignore VS Code settings
+### VS Code ###
 .vscode/
 
-# Ignore application properties
-Backend/src/main/resources/application.properties
-
-# Ignore help file
-Backend/HELP.md
-
-# Allow specific target and build directories
-!Backend/**/src/main/**/target/
-!Backend/**/src/test/**/target/
-!Backend/**/src/main/**/build/
-!Backend/**/src/test/**/build/
-
-# Logs
-Frontend/logs
-Frontend/*.log
-Frontend/npm-debug.log*
-Frontend/yarn-debug.log*
-Frontend/yarn-error.log*
-Frontend/pnpm-debug.log*
-Frontend/lerna-debug.log*
-
-# Node modules and build directories
-Frontend/node_modules
-Frontend/dist
-Frontend/dist-ssr
-Frontend/*.local
-
-# Editor directories and files
-Frontend/.vscode/*
-Frontend/!.vscode/extensions.json
-Frontend/.idea
-Frontend/.DS_Store
-Frontend/*.suo
-Frontend/*.ntvs*
-Frontend/*.njsproj
-Frontend/*.sln
-Frontend/*.sw?
+application.properties 
