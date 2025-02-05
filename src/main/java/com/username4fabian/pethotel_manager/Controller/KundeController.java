@@ -1,5 +1,7 @@
 package com.username4fabian.pethotel_manager.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,7 @@ public class KundeController {
     }
 
     @GetMapping("/GetAllKunden")
-    public String getAllKunden() {
-        return kundeRepository.findAll().toString();
+    public List<Kunde> getAllKunden() {
+        return kundeRepository.findAll();
     }
 }

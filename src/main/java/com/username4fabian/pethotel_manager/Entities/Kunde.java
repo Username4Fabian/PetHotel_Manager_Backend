@@ -1,11 +1,15 @@
 package com.username4fabian.pethotel_manager.Entities;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -24,7 +28,7 @@ public class Kunde {
     private String plz;
     private String ort;
 
-    private int telefonnummer;
+    private String telefonnummer;
     private String email;
     private String ausweisnr;
     private Date geburtsdatum;
@@ -33,12 +37,16 @@ public class Kunde {
     private boolean agbsAkzeptiert;
     private boolean noMWST;
 
+    @OneToMany(mappedBy = "DOwner")
+    @JsonIgnore
+    private List<Dog> dogs;
+
     public Kunde() {
         // Default constructor
     }
 
     public Kunde(String anrede, String firstName, String lastName, String straße, String plz, String ort,
-            int telefonnummer, String email, String ausweisnr, Date geburtsdatum, String geburtsort, String sprache,
+            String telefonnummer, String email, String ausweisnr, Date geburtsdatum, String geburtsort, String sprache,
             boolean agbsAkzeptiert, boolean noMWST) {
         this.anrede = anrede;
         this.firstName = firstName;
@@ -112,11 +120,11 @@ public class Kunde {
         this.ort = ort;
     }
 
-    public int getTelefonnummer() {
+    public String getTelefonnummer() {
         return this.telefonnummer;
     }
 
-    public void setTelefonnummer(int telefonnummer) {
+    public void setTelefonnummer(String telefonnummer) {
         this.telefonnummer = telefonnummer;
     }
 
