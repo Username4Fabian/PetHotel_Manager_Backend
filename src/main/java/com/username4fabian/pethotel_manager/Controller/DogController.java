@@ -2,7 +2,9 @@ package com.username4fabian.pethotel_manager.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +40,17 @@ public class DogController {
     private String apiKey;
 
     @PostMapping("/saveDog")
-    public ResponseEntity<Dog> saveDog(@RequestBody Dog dog, @RequestParam("ownerId") int ownerId) {
+    public ResponseEntity<Map<String, Object>> saveDog(@RequestBody Dog dog, @RequestParam("ownerId") int ownerId) {
         Kunde owner = kundeRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("Owner not found with ID: " + ownerId));
         dog.setDOwner(owner);
         Dog savedDog = dogRepository.save(dog);
-        return ResponseEntity.ok(savedDog);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("dog", savedDog);
+        response.put("dogId", savedDog.getId());
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/uploadImage")
