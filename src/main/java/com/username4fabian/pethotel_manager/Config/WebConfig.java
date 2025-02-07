@@ -1,4 +1,4 @@
-package com.username4fabian.pethotel_manager;
+package com.username4fabian.pethotel_manager.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

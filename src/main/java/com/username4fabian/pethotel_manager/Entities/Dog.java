@@ -23,6 +23,8 @@ public class Dog {
     private int passNr;
     private String chipNr;
 
+    private String imageURL;
+
     @ManyToOne
     @JoinColumn(name = "kunde_id")
     private Kunde DOwner;
@@ -31,13 +33,14 @@ public class Dog {
         // Default constructor
     }
 
-    public Dog(String name, String rasse, String geschlecht, int passNr, String chipNr, Kunde DOwner) {
+    public Dog(String name, String rasse, String geschlecht, int passNr, String chipNr, Kunde DOwner, String imageURL) {
         this.name = name;
         this.rasse = rasse;
         this.geschlecht = geschlecht;
         this.passNr = passNr;
         this.chipNr = chipNr;
         this.DOwner = DOwner;
+        this.imageURL = imageURL;
     }
 
     public int getId() {
@@ -94,5 +97,13 @@ public class Dog {
 
     public void setDOwner(Kunde DOwner) {
         this.DOwner = DOwner;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
