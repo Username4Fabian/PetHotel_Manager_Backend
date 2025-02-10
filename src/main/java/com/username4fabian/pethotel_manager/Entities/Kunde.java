@@ -41,6 +41,9 @@ public class Kunde {
     @JsonIgnore
     private List<Dog> dogs;
 
+    @OneToMany(mappedBy = "Kunde")
+    private List<Appoint> appoints;
+
     public Kunde() {
         // Default constructor
     }
