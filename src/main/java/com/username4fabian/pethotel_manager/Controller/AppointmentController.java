@@ -1,9 +1,9 @@
 package com.username4fabian.pethotel_manager.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,27 +23,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AppointmentController {
     @Autowired
     private AppointmentRepository appointmentRepository;
-    @Autowired
-    private DogRepository dogRepository;
+
     @Autowired
     private KundeRepository kundeRepository;
 
+    @Autowired
+    private DogRepository dogRepository;
+
     @PostMapping("/createNewAppointment")
-    public ResponseEntity<String> createNewAppointment(@RequestBody Appointment appointmentRequest) {
-        Kunde kunde = kundeRepository.findById(appointmentRequest.getKunde().getId()).orElse(null);
-        if (kunde == null) {
-            return ResponseEntity.badRequest()
-                    .body("Kunde not found with ID: " + appointmentRequest.getKunde().getId());
-        }
+    public Appointment createNewAppointment(@RequestBody Appointment appointmentRequest) {
+        // Fetch the Kunde entity
+        Kunde kunde = kundeRepository.findById(appointmentRequest.getKundeId())
+                .orElseThrow(() -> new RuntimeException("Kunde not found with id: " + appointmentRequest.getKundeId()));
 
-        List<Dog> dogs = dogRepository.findByDOwner(kunde);
+        // Fetch the Dog entities
+        List<Dog> dogs = appointmentRequest.getDogIds().stream()
+                .map(dogId -> dogRepository.findById(dogId)
+                        .orElseThrow(() -> new RuntimeException("Dog not found with id: " + dogId)))
+                .collect(Collectors.toList());
 
-        Appointment appointment = new Appointment(appointmentRequest.getAnmerkung(), appointmentRequest.getAnkunft(),
-                appointmentRequest.getAbfahrt(), appointmentRequest.isBezahlt(), dogs, kunde);
+        // Set the Kunde and Dogs in the Appointment
+        appointmentRequest.setKunde(kunde);
+        appointmentRequest.setDogs(dogs);
 
-        appointmentRepository.save(appointment);
-
-        return ResponseEntity.ok("Appointment saved");
+        // Save the Appointment
+        return appointmentRepository.save(appointmentRequest);
     }
 
     @GetMapping("/getAllAppointments")
