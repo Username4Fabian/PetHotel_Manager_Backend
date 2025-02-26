@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,14 +44,15 @@ public class KundeController {
     }
 
     @DeleteMapping("/DeleteKunde/{id}")
-    public void deleteKunde(@PathVariable int id) {
-        Kunde kunde = kundeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kunde not found with id: " + id));
+    public ResponseEntity<String> deleteKunde(@PathVariable int id) {
+        Kunde kunde = kundeRepository.findById(id).orElse(null);
 
-        // Find all dogs belonging to the customer
+        if (kunde == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kunde not found with id: " + id);
+        }
+
         List<Dog> dogs = dogRepository.findByDOwner(kunde);
 
-        // Find and delete all appointments related to the customer's dogs
         for (Dog dog : dogs) {
             List<Appointment> appointments = appointmentRepository.findAll().stream()
                     .filter(appointment -> appointment.getDogs().contains(dog))
@@ -57,11 +60,13 @@ public class KundeController {
             appointmentRepository.deleteAll(appointments);
         }
 
-        // Delete all dogs belonging to the customer
-        dogRepository.deleteAll(dogs);
+        if (!dogs.isEmpty()) {
+            dogRepository.deleteAll(dogs);
+        }
 
-        // Delete the customer
         kundeRepository.deleteById(id);
+
+        return ResponseEntity.ok("Kunde deleted with id: " + id);
     }
 
     @PostMapping("/UpdateKunde")
