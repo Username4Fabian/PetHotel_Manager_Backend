@@ -6,32 +6,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.username4fabian.pethotel_manager.Entities.Appointment;
 import com.username4fabian.pethotel_manager.Entities.Dog;
 import com.username4fabian.pethotel_manager.Entities.Kunde;
+import com.username4fabian.pethotel_manager.Repositories.AppointmentRepository;
 import com.username4fabian.pethotel_manager.Repositories.DogRepository;
 import com.username4fabian.pethotel_manager.Repositories.KundeRepository;
 import com.username4fabian.pethotel_manager.Services.BCDNStorage;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/dog")
 public class DogController {
     @Autowired
     private DogRepository dogRepository;
+
     @Autowired
     private KundeRepository kundeRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Value("${bunny.storageZoneName}")
     private String storageZoneName;
@@ -85,5 +93,57 @@ public class DogController {
     @GetMapping("/GetAllDogs")
     public List<Dog> getAllDogs() {
         return dogRepository.findAll();
+    }
+
+    @DeleteMapping("/DeleteDog/{id}")
+    public ResponseEntity<String> deleteDog(@PathVariable int id) {
+        Dog dog = dogRepository.findById(id).orElse(null);
+
+        if (dog == null) {
+            return ResponseEntity.status(404).body("Dog not found with id: " + id);
+        }
+
+        // Find and delete all appointments related to the dog
+        List<Appointment> appointments = appointmentRepository.findAll().stream()
+                .filter(appointment -> appointment.getDogs().contains(dog))
+                .collect(Collectors.toList());
+        appointmentRepository.deleteAll(appointments);
+
+        // Delete the dog
+        dogRepository.deleteById(id);
+
+        return ResponseEntity.ok("Dog deleted with id: " + id);
+    }
+
+    @PostMapping("/UpdateDog")
+    public ResponseEntity<Map<String, Object>> updateDog(@RequestBody Dog updatedDog) {
+        // Fetch the existing dog from the database
+        Dog existingDog = dogRepository.findById(updatedDog.getId())
+                .orElseThrow(() -> new RuntimeException("Dog not found with ID: " + updatedDog.getId()));
+
+        // Update the fields of the existing dog with the new data
+        existingDog.setName(updatedDog.getName());
+        existingDog.setRasse(updatedDog.getRasse());
+        existingDog.setPassNr(updatedDog.getPassNr());
+        existingDog.setChipNr(updatedDog.getChipNr());
+        existingDog.setGeschlecht(updatedDog.getGeschlecht());
+
+        // If the owner is being updated, fetch the new owner and set it
+        if (updatedDog.getDOwner() != null) {
+            Kunde owner = kundeRepository.findById(updatedDog.getDOwner().getId())
+                    .orElseThrow(
+                            () -> new RuntimeException("Owner not found with ID: " + updatedDog.getDOwner().getId()));
+            existingDog.setDOwner(owner);
+        }
+
+        // Save the updated dog back to the database
+        Dog savedDog = dogRepository.save(existingDog);
+
+        // Prepare the response
+        Map<String, Object> response = new HashMap<>();
+        response.put("dog", savedDog);
+        response.put("dogId", savedDog.getId());
+
+        return ResponseEntity.ok(response);
     }
 }
