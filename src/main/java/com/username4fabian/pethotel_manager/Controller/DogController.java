@@ -146,4 +146,16 @@ public class DogController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/GetAllBreeds")
+    public List<String> getAllBreeds() {
+        return dogRepository.findAll().stream()
+                .map(Dog::getRasse)
+                .filter(rasse -> rasse != null && !rasse.isEmpty())
+                .collect(Collectors.groupingBy(rasse -> rasse, Collectors.counting()))
+                .entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }
