@@ -70,4 +70,24 @@ public class AppointmentController {
         appointmentRepository.deleteById(id);
         return ResponseEntity.ok("Appointment deleted with id: " + id);
     }
+
+    @PostMapping("/updateAppointment")
+    public Appointment updateAppointment(@RequestBody Appointment appointmentRequest) {
+        // Fetch the Kunde entity
+        Kunde kunde = kundeRepository.findById(appointmentRequest.getKundeId())
+                .orElseThrow(() -> new RuntimeException("Kunde not found with id: " + appointmentRequest.getKundeId()));
+
+        // Fetch the Dog entities
+        List<Dog> dogs = appointmentRequest.getDogIds().stream()
+                .map(dogId -> dogRepository.findById(dogId)
+                        .orElseThrow(() -> new RuntimeException("Dog not found with id: " + dogId)))
+                .collect(Collectors.toList());
+
+        // Set the Kunde and Dogs in the Appointment
+        appointmentRequest.setKunde(kunde);
+        appointmentRequest.setDogs(dogs);
+
+        // Save the Appointment
+        return appointmentRepository.save(appointmentRequest);
+    }
 }
