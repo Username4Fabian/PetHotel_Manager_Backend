@@ -27,6 +27,8 @@ public class Dog {
 
     private String tierart;
 
+    private String medikamente;
+
     @ManyToOne
     @JoinColumn(name = "kunde_id")
     private Kunde DOwner;
@@ -36,7 +38,8 @@ public class Dog {
     }
 
     public Dog(String name, String rasse, String geschlecht, int passNr, String chipNr, Kunde DOwner, String imageURL,
-            String tierart) {
+            String tierart, String medikamente) {
+        this.medikamente = medikamente;
         this.tierart = tierart;
         this.name = name;
         this.rasse = rasse;

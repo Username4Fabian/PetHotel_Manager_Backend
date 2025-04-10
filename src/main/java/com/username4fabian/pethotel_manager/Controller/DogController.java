@@ -128,6 +128,7 @@ public class DogController {
         existingDog.setChipNr(updatedDog.getChipNr());
         existingDog.setGeschlecht(updatedDog.getGeschlecht());
         existingDog.setTierart(updatedDog.getTierart());
+        existingDog.setMedikamente(updatedDog.getMedikamente());
 
         // If the owner is being updated, fetch the new owner and set it
         if (updatedDog.getDOwner() != null) {
