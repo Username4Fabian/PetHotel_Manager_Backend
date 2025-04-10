@@ -25,6 +25,8 @@ public class Dog {
 
     private String imageURL;
 
+    private String tierart;
+
     @ManyToOne
     @JoinColumn(name = "kunde_id")
     private Kunde DOwner;
@@ -33,7 +35,9 @@ public class Dog {
         // Default constructor
     }
 
-    public Dog(String name, String rasse, String geschlecht, int passNr, String chipNr, Kunde DOwner, String imageURL) {
+    public Dog(String name, String rasse, String geschlecht, int passNr, String chipNr, Kunde DOwner, String imageURL,
+            String tierart) {
+        this.tierart = tierart;
         this.name = name;
         this.rasse = rasse;
         this.geschlecht = geschlecht;
