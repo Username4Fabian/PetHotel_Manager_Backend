@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.username4fabian.pethotel_manager.Entities.Appointment;
 import com.username4fabian.pethotel_manager.Entities.Dog;
 import com.username4fabian.pethotel_manager.Entities.Kunde;
+import com.username4fabian.pethotel_manager.Entities.Zimmer;
+import com.username4fabian.pethotel_manager.Entities.ZimmerBelegung;
 import com.username4fabian.pethotel_manager.Repositories.AppointmentRepository;
 import com.username4fabian.pethotel_manager.Repositories.DogRepository;
 import com.username4fabian.pethotel_manager.Repositories.KundeRepository;
+import com.username4fabian.pethotel_manager.Repositories.ZimmerBelegungRepository;
+import com.username4fabian.pethotel_manager.Repositories.ZimmerRepository;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,12 @@ public class AppointmentController {
 
     @Autowired
     private DogRepository dogRepository;
+
+    @Autowired
+    private ZimmerBelegungRepository zimmerBelegungRepository;
+
+    @Autowired
+    private ZimmerRepository zimmerRepository;
 
     @PostMapping("/createNewAppointment")
     public Appointment createNewAppointment(@RequestBody Appointment appointmentRequest) {
@@ -89,5 +99,19 @@ public class AppointmentController {
 
         // Save the Appointment
         return appointmentRepository.save(appointmentRequest);
+    }
+
+    @PostMapping("/assignRooms")
+    public ResponseEntity<String> assignRooms(@RequestBody List<ZimmerBelegung> belegungen) {
+        for (ZimmerBelegung belegung : belegungen) {
+            zimmerBelegungRepository.save(belegung);
+        }
+        return ResponseEntity.ok("Rooms assigned successfully");
+    }
+
+    @PostMapping("/createNewZimmer")
+    public ResponseEntity<String> createNewZimmer(@RequestBody Zimmer zimmer) {
+        zimmerRepository.save(zimmer);
+        return ResponseEntity.ok("Zimmer created successfully");
     }
 }
