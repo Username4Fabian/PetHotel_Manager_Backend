@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.username4fabian.pethotel_manager.Services.AppointmentService;
 
 @RestController
 @RequestMapping("/appointment")
@@ -110,5 +111,11 @@ public class AppointmentController {
     @GetMapping("/getAllRooms")
     public List<Zimmer> getAllRooms() {
         return zimmerRepository.findAll();
+    }
+
+    @GetMapping("/getLastAppointmentID")
+    public ResponseEntity<Integer> getNextAppointmentId() {
+        int nextId = appointmentService.getNextId();
+        return ResponseEntity.ok(nextId);
     }
 }
