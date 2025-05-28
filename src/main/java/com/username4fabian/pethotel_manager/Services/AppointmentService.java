@@ -12,7 +12,6 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
 
     public int getNextId() {
-        Integer maxId = appointmentRepository.findMaxId();
-        return maxId + 1;
+        return appointmentRepository.findMaxAppointmentNr();
     }
 }

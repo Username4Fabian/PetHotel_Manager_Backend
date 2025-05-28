@@ -45,6 +45,9 @@ public class AppointmentController {
     @Autowired
     private ZimmerRepository zimmerRepository;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
     @PostMapping("/createNewAppointment")
     public Appointment createNewAppointment(@RequestBody Appointment appointmentRequest) {
         Kunde kunde = kundeRepository.findById(appointmentRequest.getKundeId())
@@ -58,6 +61,8 @@ public class AppointmentController {
         appointmentRequest.setKunde(kunde);
         appointmentRequest.setDogs(dogs);
 
+        appointmentRequest.setAppointment_nr(appointmentRepository.findMaxAppointmentNr() + 1);
+
         return appointmentRepository.save(appointmentRequest);
     }
 
@@ -66,16 +71,16 @@ public class AppointmentController {
         return appointmentRepository.findAll();
     }
 
-    @DeleteMapping("/DeleteAppointment/{id}")
-    public ResponseEntity<String> deleteAppointment(@PathVariable int id) {
-        Appointment appointment = appointmentRepository.findById(id).orElse(null);
+    @DeleteMapping("/DeleteAppointment/{appointmentNr}")
+    public ResponseEntity<String> deleteAppointment(@PathVariable int appointmentNr) {
+        Appointment appointment = appointmentRepository.findByAppointmentNr(appointmentNr).orElse(null);
 
         if (appointment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment not found with id: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment not found with appointment_nr: " + appointmentNr);
         }
 
-        appointmentRepository.deleteById(id);
-        return ResponseEntity.ok("Appointment deleted with id: " + id);
+        appointmentRepository.delete(appointment);
+        return ResponseEntity.ok("Appointment deleted with appointment_nr: " + appointmentNr);
     }
 
     @PostMapping("/updateAppointment")
@@ -115,7 +120,7 @@ public class AppointmentController {
 
     @GetMapping("/getLastAppointmentID")
     public ResponseEntity<Integer> getNextAppointmentId() {
-        int nextId = appointmentService.getNextId();
-        return ResponseEntity.ok(nextId);
+        int nextAppointmentNr = appointmentService.getNextId();
+        return ResponseEntity.ok(nextAppointmentNr);
     }
 }

@@ -24,6 +24,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private int appointment_nr;
+
     @Column(length = 1000)
     private String anmerkung;
 
@@ -51,7 +53,7 @@ public class Appointment {
     }
 
     public Appointment(String anmerkung, Date date_ankunft, String time_ankunft, Date date_abfahrt, String time_abfahrt,
-            boolean bezahlt, List<Dog> dogs, Kunde kunde) {
+            boolean bezahlt, List<Dog> dogs, Kunde kunde, int appointment_nr) {
         this.anmerkung = anmerkung;
         this.date_ankunft = date_ankunft;
         this.time_ankunft = time_ankunft;
@@ -60,5 +62,6 @@ public class Appointment {
         this.bezahlt = bezahlt;
         this.dogs = dogs;
         this.kunde = kunde;
+        this.appointment_nr = appointment_nr;
     }
 }
